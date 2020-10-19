@@ -1,0 +1,19 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  # Define Postgres SQL database image/container.
+  db_postgres:
+    build:
+      context: ./PostgresDocker
+      dockerfile: PostgresDockerfile
+    image: antiquarianllc/winecellar_postgres_db
+    environment:
+      #POSTGRES_USER: CellarMaster_antiq_admin
+      POSTGRES_PASSWORD: ant1Quar1an!2020
+      #POSTGRES_DB: WineCellar
+    ports: 
+      - 5432:5432
+
+      

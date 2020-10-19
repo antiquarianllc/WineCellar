@@ -1,0 +1,11 @@
+# Build a Postgres SQL Database Docker container
+
+# Define environment variable used to select which version of Postgres to use.
+ARG PostgresVer=13.0
+
+FROM postgres:${PostgresVer}-alpine
+
+# Add initialization script to be run at Postgres start-up.
+# This script will define the required database user that will be
+# used by web services when dealing with database.
+COPY init.sql /docker-entrypoint-initdb.d/
