@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,10 @@ using Microsoft.Extensions.Logging;
 
 namespace WineCellar
 {
+    using Npgsql;
+
+    using WineCellar.Models;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -25,6 +30,13 @@ namespace WineCellar
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var builder = new NpgsqlConnectionStringBuilder( );
+            builder.ConnectionString = Configuration.GetConnectionString( "PostgreSqlConnection" );
+            builder.Username = Configuration[ "UserID" ];
+            builder.Password = Configuration[ "Password" ];
+
+            services.AddDbContext<WineCellarDBContext>( opt => opt.UseNpgsql( builder.ConnectionString ) );
+
             services.AddControllers();
         }
 
