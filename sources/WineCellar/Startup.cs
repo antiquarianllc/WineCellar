@@ -41,10 +41,14 @@ namespace WineCellar
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WineCellarDBContext wcConext)
         {
+            // 2020/10/21 - Move applying migrations to only happen in 'Developement' environment.
+            //--wcConext.Database.Migrate( );
+
             if (env.IsDevelopment())
             {
+                wcConext.Database.Migrate( );
                 app.UseDeveloperExceptionPage();
             }
 
