@@ -2,10 +2,10 @@
 namespace WineCellar.Models
 {
 
-    public class WineVarietal
+    public class VarietalModel
     {
-        public int Id {get; set; }
+        public int Id { get; set; }
         public string Varietal { get; set; }
     }
-    
+
 }

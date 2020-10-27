@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace WineCellar.Models
+namespace WineCellar.Entities
 {
     
     public class WineCellarDBContext : DbContext
@@ -11,7 +11,7 @@ namespace WineCellar.Models
 
         }   
 
-        public DbSet<WineVarietal> Varietals { get; set; }
+        public DbSet<VarietalEntity> Varietals { get; set; }
         
     }
 

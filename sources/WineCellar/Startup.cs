@@ -16,7 +16,7 @@ namespace WineCellar
 {
     using Npgsql;
 
-    using WineCellar.Models;
+    using WineCellar.Entities;
 
     public class Startup
     {
