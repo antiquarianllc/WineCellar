@@ -69,7 +69,7 @@ namespace WineCellar.Tests
 
         // Test 1.2 : Request count of single object when only 1 exists in database
         [Fact]
-        public void GetVarietals_ReturnsOneVarietal_WhenDBHasOneItem()
+        public void GetVarietals_ReturnsOneVarietal_WhenDBHasOneVarietal()
         {
 
             // Arrange
@@ -91,7 +91,7 @@ namespace WineCellar.Tests
 
         // Test 1.3 : Request count of N objects when N exists in database
         [Fact]
-        public void GetVarietals_ReturnsNVarietals_WhenDBHasNItems()
+        public void GetVarietals_ReturnsVarietals_WhenDBHasNVarietals()
         {
 
             // Arrange
@@ -135,7 +135,7 @@ namespace WineCellar.Tests
 
         // Test 2.1 : Request object by ID when none exist - Return null object value
         [Fact]
-        public void GetCommandVarietal_ReturnsNullValue_WhenUsingInvalidID()
+        public void GetVarietal_ReturnsNullValue_WhenUsingInvalidID()
         {
 
             // Arrange
@@ -151,7 +151,7 @@ namespace WineCellar.Tests
 
         // Test 2.2 : Request object by ID when none exist - Return 404 Not Found Return Code
         [Fact]
-        public void GetCommandVarietal_Returns404NotFound_WhenUsingInvalidID()
+        public void GetVarietal_Returns404NotFound_WhenUsingInvalidID()
         {
 
             // Arrange
@@ -167,7 +167,7 @@ namespace WineCellar.Tests
 
         // Test 2.3 : Request object by valid ID - Check Correct Return Type
         [Fact]
-        public void GetCommandVarietal_ReturnsItemOfCorrectType_WhenUsingValidID()
+        public void GetVarietal_ReturnsItemOfCorrectType_WhenUsingValidID()
         {
 
             // Arrange
@@ -191,7 +191,7 @@ namespace WineCellar.Tests
 
         // Test 2.4 : Request object by valid ID - Check correct item returned
         [Fact]
-        public void GetCommandVarietal_ReturnCorrectVarietal_WhenUsingValidID()
+        public void GetVarietal_ReturnCorrectVarietal_WhenUsingValidID()
         {
 
             // Arrange
@@ -212,6 +212,161 @@ namespace WineCellar.Tests
             Assert.Equal( cmdId, result.Value.Id );
 
         }
+
+
+        // ACTION 3 Tests : POST     /api/varietal
+
+        // Test 3.1 : Create new varietal database item - Database record count increased.
+        [Fact]
+        public void PostVarietal_VarietalCountIncremented_WhenUsingValidVarietal()
+        {
+
+            // Arrange
+            var varietal = new VarietalModel
+            {
+                Varietal = "Test 3.1 Varietal"
+            };
+
+            var oldCount = _dbContext.Varietals.Count( );
+
+            // Act
+            var result = _controller.PostVarietal( varietal );
+
+            //Assert
+            Assert.Equal( oldCount + 1, _dbContext.Varietals.Count( ) );
+
+        }
+
+        // Test 3.2 : Create new varietal database item - Return item of proper type.
+        [Fact]
+        public void PostVarietal_ReturnsItemOfCorrectType_WhenUsingValidID()
+        {
+
+            // Arrange
+            var varietal = new VarietalModel
+            {
+                Varietal = "Test 3.2 Varietal"
+            };
+
+            // Act
+            var result = _controller.PostVarietal( varietal );
+
+            //Assert
+            Assert.IsType<CreatedAtActionResult>( result.Result );
+
+        }
+
+        // Test 3.3 : Create duplicate varietal record in Databse - Returns 409 Conflict code
+        [Fact]
+        public void PostVarietal_Returns409Conflict_WhenUsingDuplicateVarietal()
+        {
+
+            // Arrange
+            var varietal = new VarietalModel
+            {
+                Varietal = "Test 3.3 Varietal"
+            };
+
+            // Act
+            var result = _controller.PostVarietal( varietal );
+            //--if ( Assert.IsType<CreatedAtActionResult>( result.Result ) )
+            {
+                // Attempt to add varietal a 2nd time.
+                result = _controller.PostVarietal( varietal );
+            }
+
+            //Assert
+            Assert.IsType<ConflictResult>( result.Result );
+
+        }
+
+
+        // ACTION 5 Tests : DELETE          /api/varietal/{id}
+
+        // Test 5.1 : Request valid object Id be deleted - Results in object count decremented by 1
+        [Fact]
+        public void DeleteVarietal_ObjectCountDecrementedBy1_WhenUsingValidVarietalId()
+        {
+
+            // Arrange
+            var varietal = new VarietalEntity
+            {
+                Varietal = "Test 5.1 Varietal"
+            };
+            _dbContext.Varietals.Add( varietal );
+            _dbContext.SaveChanges( );
+
+            var varietalId = varietal.Id;
+            var objCount = _dbContext.Varietals.Count( );
+
+            // Act
+            _controller.DeleteVarietal( varietalId );
+
+            //Assert
+            Assert.Equal( objCount - 1, _dbContext.Varietals.Count( ) );
+        }
+
+        // Test 5.2 : Request valid objectId  be deleted - Returns 200 OK code
+        [Fact]
+        public void DeleteVarietal_Returns200OK_WhenUsingValidVarietalId()
+        {
+
+            // Arrange
+            var varietal = new VarietalEntity
+            {
+                Varietal = "Test 5.2 Varietal"
+            };
+            _dbContext.Varietals.Add( varietal );
+            _dbContext.SaveChanges( );
+
+            var varietalId = varietal.Id;
+
+            // Act
+            var result = _controller.DeleteVarietal( varietalId );
+
+            //Assert
+            Assert.Null( result.Result );
+        }
+
+        // Test 5.3 : Request invalid object Id be deleted - Returns 404 Not Found code
+        [Fact]
+        public void DeleteVarietal_Returns404NotFound_WhenUsingInvalidVarietalId()
+        {
+
+            // Arrange
+
+            // Act
+            var result = _controller.DeleteVarietal( -1 );
+
+            //Assert
+            Assert.IsType<NotFoundResult>( result.Result );
+
+        }
+
+        // Test 5.4 : Request invalid object Id be deleted - Object count unchanged
+        [Fact]
+        public void DeleteVarietal_UnchangedObjectCount_WhenUsingInvalidVarietalId()
+        {
+
+            // Arrange
+            var varietal = new VarietalEntity
+            {
+                Varietal = "Test 5.4 Varietal"
+            };
+            _dbContext.Varietals.Add( varietal );
+            _dbContext.SaveChanges( );
+
+            var varietalId = varietal.Id;
+            var objCount = _dbContext.Varietals.Count( );
+
+            // Act
+            var result = _controller.DeleteVarietal( varietalId + 1 );
+
+            //Assert
+            Assert.Equal( objCount, _dbContext.Varietals.Count( ) );
+
+        }
+
     }
 
 }

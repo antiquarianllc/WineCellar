@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,26 +64,44 @@ namespace WineCellar.Controllers
             _logger.LogTrace( "Found varietal for Id " + id );
             return _converter.Convert( varietalEntity );
         }
-/*
+
         // POST:    api/commands
         [HttpPost]
-        public ActionResult<Command> PostCommandItem( Command command )
+        public ActionResult<VarietalModel> PostVarietal( VarietalModel varietalModel )
         {
+            _logger.LogTrace( "Create new varietal with name " + varietalModel.Varietal );
 
-            _context.CommandItems.Add( command );
+            // Convert model to entity.
+            var varietalEntity = _converter.Convert( varietalModel );
 
-            try
+            // Only allow one instance of each varietal.
+            var checkVarietal = from v in _context.Varietals
+                                where ( v.Varietal == varietalEntity.Varietal )
+                                select v;
+
+            if (checkVarietal.FirstOrDefault( ) == null)
             {
-                _context.SaveChanges( );
+                _context.Varietals.Add( varietalEntity );
+
+                try
+                {
+                    _context.SaveChanges( );
+                }
+                catch
+                {
+                    return BadRequest( );
+                }
             }
-            catch
+            else
             {
-                return BadRequest( );
+                return Conflict( );
             }
 
-            return CreatedAtAction( "GetCommandItem", new Command { Id = command.Id }, command );
+
+            return CreatedAtAction( "GetVarietal", varietalEntity.Id  );
         }
 
+/*
         // PUT:     api/commands/{id}
         [HttpPut]
         public ActionResult PutCommandItem( int id, Command command )
@@ -98,25 +117,26 @@ namespace WineCellar.Controllers
 
             return NoContent( );
         }
+*/
 
-        // DELETE:     api/commands/{id}
+        // DELETE:     api/varietal/{id}
         [HttpDelete]
-        public ActionResult<Command> DeleteCommandItem( int id )
+        public ActionResult<VarietalModel> DeleteVarietal( int id )
         {
+            _logger.LogTrace( "Delete varietal with Id " + id );
+            var varietalEntity = _context.Varietals.Find( id );
 
-            var commandItem = _context.CommandItems.Find( id );
-
-            if ( commandItem == null )
+            if ( varietalEntity == null )
             {
                 return NotFound( );
             }
 
-            _context.CommandItems.Remove( commandItem );
+            _context.Varietals.Remove( varietalEntity );
             _context.SaveChanges( );
 
-            return commandItem;
+            return _converter.Convert( varietalEntity );
         }
-*/
+
     }
 
 }
