@@ -12,7 +12,7 @@ namespace WineCellar.Helpers
 
         public VarietalConverter( WineCellarDBContext context ) => _context = context;
 
-        public VarietalEntity Convert( VarietalModel source )
+        public VarietalEntity Convert( WineVarietal source )
         {
             VarietalEntity destination = _context.Varietals.Find( source.Id );
 
@@ -27,10 +27,10 @@ namespace WineCellar.Helpers
             return destination;
         }
 
-        public VarietalModel Convert( VarietalEntity source )
+        public WineVarietal Convert( VarietalEntity source )
         {
 
-            VarietalModel destination = new VarietalModel( )
+            WineVarietal destination = new WineVarietal( )
             {
                 Id = source.Id,
                 Varietal = source.Varietal

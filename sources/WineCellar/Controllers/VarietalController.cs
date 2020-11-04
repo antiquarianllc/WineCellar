@@ -33,10 +33,10 @@ namespace WineCellar.Controllers
 
         // GET:  api/varietal
         [HttpGet]
-        public ActionResult<IEnumerable<VarietalModel>> GetVarietals( )
+        public ActionResult<IEnumerable<WineVarietal>> GetVarietals( )
         {
             _logger.LogTrace( "Get all varietals" );
-            List<VarietalModel> varietals = new List<VarietalModel>( );;
+            List<WineVarietal> varietals = new List<WineVarietal>( );;
             var varietalEntities = _context.Varietals;
 
             foreach ( VarietalEntity entity in varietalEntities )
@@ -50,7 +50,7 @@ namespace WineCellar.Controllers
         // GET:      api/varietal/{Id}
         //[Authorize]
         [HttpGet( "{id}" )]
-        public ActionResult<VarietalModel> GetVarietal( int id )
+        public ActionResult<WineVarietal> GetVarietal( int id )
         {
             _logger.LogTrace( "Get varietal with Id " + id );
             var varietalEntity = _context.Varietals.Find( id );
@@ -67,12 +67,12 @@ namespace WineCellar.Controllers
 
         // POST:    api/commands
         [HttpPost]
-        public ActionResult<VarietalModel> PostVarietal( VarietalModel varietalModel )
+        public ActionResult<WineVarietal> PostVarietal( WineVarietal varietal )
         {
-            _logger.LogTrace( "Create new varietal with name " + varietalModel.Varietal );
+            _logger.LogTrace( "Create new varietal with name " + varietal.Varietal );
 
             // Convert model to entity.
-            var varietalEntity = _converter.Convert( varietalModel );
+            var varietalEntity = _converter.Convert( varietal );
 
             // Only allow one instance of each varietal.
             var checkVarietal = from v in _context.Varietals
@@ -121,7 +121,7 @@ namespace WineCellar.Controllers
 
         // DELETE:     api/varietal/{id}
         [HttpDelete]
-        public ActionResult<VarietalModel> DeleteVarietal( int id )
+        public ActionResult<WineVarietal> DeleteVarietal( int id )
         {
             _logger.LogTrace( "Delete varietal with Id " + id );
             var varietalEntity = _context.Varietals.Find( id );

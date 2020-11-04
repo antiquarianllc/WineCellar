@@ -5,13 +5,13 @@ namespace WineCellar.Tests
 {
     using WineCellar.Models;
 
-    public class VarietalModelTests : IDisposable
+    public class WineVarietalTests : IDisposable
     {
-        private VarietalModel _testVarietal;
+        private WineVarietal _testVarietal;
 
-        public VarietalModelTests( )
+        public WineVarietalTests( )
         {
-            _testVarietal = new VarietalModel
+            _testVarietal = new WineVarietal
             {
                 Varietal = "Test Varietal"
             };

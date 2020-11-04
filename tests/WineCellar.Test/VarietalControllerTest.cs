@@ -127,7 +127,7 @@ namespace WineCellar.Tests
             var results = _controller.GetVarietals( );
 
             //Assert
-            Assert.IsType<ActionResult<IEnumerable<VarietalModel>>>( results );
+            Assert.IsType<ActionResult<IEnumerable<WineVarietal>>>( results );
 
         }
 
@@ -185,7 +185,7 @@ namespace WineCellar.Tests
             var result = _controller.GetVarietal( cmdId );
 
             //Assert
-            Assert.IsType<ActionResult<VarietalModel>>( result );
+            Assert.IsType<ActionResult<WineVarietal>>( result );
 
         }
 
@@ -222,7 +222,7 @@ namespace WineCellar.Tests
         {
 
             // Arrange
-            var varietal = new VarietalModel
+            var varietal = new WineVarietal
             {
                 Varietal = "Test 3.1 Varietal"
             };
@@ -243,7 +243,7 @@ namespace WineCellar.Tests
         {
 
             // Arrange
-            var varietal = new VarietalModel
+            var varietal = new WineVarietal
             {
                 Varietal = "Test 3.2 Varietal"
             };
@@ -262,7 +262,7 @@ namespace WineCellar.Tests
         {
 
             // Arrange
-            var varietal = new VarietalModel
+            var varietal = new WineVarietal
             {
                 Varietal = "Test 3.3 Varietal"
             };
