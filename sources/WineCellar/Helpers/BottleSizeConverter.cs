@@ -23,7 +23,7 @@ namespace WineCellar.Helpers
 
             destination.Id = source.Id;
             destination.BottleSize = source.Size;
-            destination.Volume = source.Volume;
+            destination.Volume = source.VolumeMeasure;
 
             return destination;
         }
@@ -35,7 +35,7 @@ namespace WineCellar.Helpers
             {
                 Id = source.Id,
                 Size = source.BottleSize,
-                Volume = source.Volume,
+                VolumeMeasure = source.Volume,
                 Default = source.Default
         };
 

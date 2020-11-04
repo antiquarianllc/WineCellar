@@ -6,13 +6,13 @@ namespace WineCellar.Models
     {
         public int Id { get; set; }
         public string Size { get; set; }
-        public string Volume { get; set; }
+        public string VolumeMeasure { get; set; }
         public bool Default { get; set; }
 
 
         public override string ToString( )
         {
-            return Size + Volume;
+            return Size + VolumeMeasure;
         }
     }
 
