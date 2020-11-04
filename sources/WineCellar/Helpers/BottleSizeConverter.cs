@@ -12,7 +12,7 @@ namespace WineCellar.Helpers
 
         public BottleSizeConverter( WineCellarDBContext context ) => _context = context;
 
-        public BottleSizeEntity Convert( BottleSizeModel source )
+        public BottleSizeEntity Convert( BottleSize source )
         {
             BottleSizeEntity destination = _context.BottleSizes.Find( source.Id );
 
@@ -28,10 +28,10 @@ namespace WineCellar.Helpers
             return destination;
         }
 
-        public BottleSizeModel Convert( BottleSizeEntity source )
+        public BottleSize Convert( BottleSizeEntity source )
         {
 
-            BottleSizeModel destination = new BottleSizeModel( )
+            BottleSize destination = new BottleSize( )
             {
                 Id = source.Id,
                 Size = source.BottleSize,

@@ -132,7 +132,7 @@ namespace WineCellar.Tests
             var results = _controller.GetBottleSizes( );
 
             //Assert
-            Assert.IsType<ActionResult<IEnumerable<BottleSizeModel>>>( results );
+            Assert.IsType<ActionResult<IEnumerable<BottleSize>>>( results );
 
         }
 
@@ -192,7 +192,7 @@ namespace WineCellar.Tests
             var result = _controller.GetBottleSize( cmdId );
 
             //Assert
-            Assert.IsType<ActionResult<BottleSizeModel>>( result );
+            Assert.IsType<ActionResult<BottleSize>>( result );
 
         }
 
@@ -231,7 +231,7 @@ namespace WineCellar.Tests
         {
 
             // Arrange
-            var BottleSize = new BottleSizeModel
+            var BottleSize = new BottleSize
             {
                 Size = "Test 3.1 BottleSize",
                 VolumeMeasure = "Test 3.1 Volume Measure",
@@ -254,7 +254,7 @@ namespace WineCellar.Tests
         {
 
             // Arrange
-            var BottleSize = new BottleSizeModel
+            var BottleSize = new BottleSize
             {
                 Size = "Test 3.2 BottleSize",
                 VolumeMeasure = "Test 3.2 Volume Measure",
@@ -275,7 +275,7 @@ namespace WineCellar.Tests
         {
 
             // Arrange
-            var BottleSize = new BottleSizeModel
+            var BottleSize = new BottleSize
             {
                 Size = "Test 3.3 BottleSize",
                 VolumeMeasure = "Test 3.3 Volume Measure",

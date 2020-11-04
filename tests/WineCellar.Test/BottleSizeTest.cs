@@ -7,11 +7,11 @@ namespace WineCellar.Tests
 
     public class BottleSizeModelTests : IDisposable
     {
-        private BottleSizeModel _testBottleSize;
+        private BottleSize _testBottleSize;
 
         public BottleSizeModelTests()
         {
-            _testBottleSize = new BottleSizeModel
+            _testBottleSize = new BottleSize
             {
                 Size = "BaseSize",
                 VolumeMeasure = " Base Volume Measure",

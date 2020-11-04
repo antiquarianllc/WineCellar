@@ -2,7 +2,7 @@
 namespace WineCellar.Models
 {
 
-    public class BottleSizeModel
+    public class BottleSize
     {
         public int Id { get; set; }
         public string Size { get; set; }

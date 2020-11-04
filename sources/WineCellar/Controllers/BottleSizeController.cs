@@ -33,10 +33,10 @@ namespace WineCellar.Controllers
 
         // GET:  api/BottleSize
         [HttpGet]
-        public ActionResult<IEnumerable<BottleSizeModel>> GetBottleSizes()
+        public ActionResult<IEnumerable<BottleSize>> GetBottleSizes()
         {
             _logger.LogTrace( "Get all BottleSizes" );
-            List<BottleSizeModel> BottleSizes = new List<BottleSizeModel>( ); ;
+            List<BottleSize> BottleSizes = new List<BottleSize>( ); ;
             var BottleSizeEntities = _context.BottleSizes;
 
             foreach (BottleSizeEntity entity in BottleSizeEntities)
@@ -50,7 +50,7 @@ namespace WineCellar.Controllers
         // GET:      api/BottleSize/{Id}
         //[Authorize]
         [HttpGet( "{id}" )]
-        public ActionResult<BottleSizeModel> GetBottleSize( int id )
+        public ActionResult<BottleSize> GetBottleSize( int id )
         {
             _logger.LogTrace( "Get BottleSize with Id " + id );
             var BottleSizeEntity = _context.BottleSizes.Find( id );
@@ -67,12 +67,12 @@ namespace WineCellar.Controllers
 
         // POST:    api/commands
         [HttpPost]
-        public ActionResult<BottleSizeModel> PostBottleSize( BottleSizeModel BottleSizeModel )
+        public ActionResult<BottleSize> PostBottleSize( BottleSize bottleSize )
         {
-            _logger.LogTrace( "Create new BottleSize " + BottleSizeModel.ToString( ) );
+            _logger.LogTrace( "Create new BottleSize " + bottleSize.ToString( ) );
 
             // Convert model to entity.
-            var BottleSizeEntity = _converter.Convert( BottleSizeModel );
+            var BottleSizeEntity = _converter.Convert( bottleSize );
 
             // Only allow one instance of each BottleSize.
             var checkBottleSize = from v in _context.BottleSizes
@@ -121,7 +121,7 @@ namespace WineCellar.Controllers
 
         // DELETE:     api/BottleSize/{id}
         [HttpDelete]
-        public ActionResult<BottleSizeModel> DeleteBottleSize( int id )
+        public ActionResult<BottleSize> DeleteBottleSize( int id )
         {
             _logger.LogTrace( "Delete BottleSize with Id " + id );
             var BottleSizeEntity = _context.BottleSizes.Find( id );
