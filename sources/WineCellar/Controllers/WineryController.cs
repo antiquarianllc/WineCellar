@@ -37,9 +37,9 @@ namespace WineCellar.Controllers
         {
             _logger.LogTrace( "Get all Winerys" );
             List<Winery> Winerys = new List<Winery>( ); ;
-            var WineryEntities = _context.Wineries;
+            var wineEntities = _context.Wineries;
 
-            foreach (WineryEntity entity in WineryEntities)
+            foreach (WineryEntity entity in wineEntities)
             {
                 Winerys.Add( _converter.Convert( entity ) );
             }
@@ -53,35 +53,35 @@ namespace WineCellar.Controllers
         public ActionResult<Winery> GetWinery( int id )
         {
             _logger.LogTrace( "Get Winery with Id " + id );
-            var WineryEntity = _context.Wineries.Find( id );
+            var wineryEntity = _context.Wineries.Find( id );
 
-            if (WineryEntity == null)
+            if (wineryEntity == null)
             {
                 _logger.LogInformation( "Cannot find Winery associated with Id " + id );
                 return NotFound( );
             }
 
             _logger.LogTrace( "Found Winery for Id " + id );
-            return _converter.Convert( WineryEntity );
+            return _converter.Convert( wineryEntity );
         }
 
         // POST:    api/Winery
         [HttpPost]
-        public ActionResult<Winery> PostWinery( Winery Winery )
+        public ActionResult<Winery> PostWinery( Winery winery )
         {
-            _logger.LogTrace( "Create new Winery " + Winery.ToString( ) );
+            _logger.LogTrace( "Create new Winery " + winery.ToString( ) );
 
             // Convert model to entity.
-            var WineryEntity = _converter.Convert( Winery );
+            var wineryEntity = _converter.Convert( winery );
 
             // Only allow one instance of each Winery.
             var checkWinery = from v in _context.Wineries
-                                  where ( v.Name == WineryEntity.Name )
+                                  where ( v.Name == wineryEntity.Name )
                                   select v;
 
             if (checkWinery.FirstOrDefault( ) == null)
             {
-                _context.Wineries.Add( WineryEntity );
+                _context.Wineries.Add( wineryEntity );
 
                 try
                 {
@@ -97,44 +97,56 @@ namespace WineCellar.Controllers
                 return Conflict( );
             }
 
-
-            return CreatedAtAction( "GetWinery", WineryEntity.Id );
+            return CreatedAtAction( "GetWinery", wineryEntity.Id );
         }
 
-        /*
-                // PUT:     api/commands/{id}
-                [HttpPut]
-                public ActionResult PutCommandItem( int id, Command command )
-                {
 
-                    if ( id != command.Id )
-                    {
-                        return BadRequest( );
-                    }
+        // PUT:     api/Winery/{id}
+        [HttpPut]
+        public ActionResult PutWinery( int id, Winery winery )
+        {
+            _logger.LogTrace( "Update Winery with Id " + id );
+            var wineryEntity = _context.Wineries.Find( id );
 
-                    _context.Entry( command ).State = EntityState.Modified;
-                    _context.SaveChanges( );
+            // Can only update an existing winery.
+            if (wineryEntity == null)
+            {
+                return NotFound( );
+            }
 
-                    return NoContent( );
-                }
-        */
+            // Convert parameter model to entity.
+            var paramWineryEntity = _converter.Convert( winery );
+
+            // Generate an updated winery entity.
+            wineryEntity.Name = paramWineryEntity.Name;
+            wineryEntity.EMail = paramWineryEntity.EMail;
+            wineryEntity.Phone = paramWineryEntity.Phone;
+            wineryEntity.WebSite = paramWineryEntity.WebSite;
+
+            // Flush change to database.
+            _context.Entry( wineryEntity ).State = EntityState.Modified;
+            _context.SaveChanges( );
+
+            return NoContent( );
+        }
+
 
         // DELETE:     api/Winery/{id}
         [HttpDelete]
         public ActionResult<Winery> DeleteWinery( int id )
         {
             _logger.LogTrace( "Delete Winery with Id " + id );
-            var WineryEntity = _context.Wineries.Find( id );
+            var wineryEntity = _context.Wineries.Find( id );
 
-            if (WineryEntity == null)
+            if (wineryEntity == null)
             {
                 return NotFound( );
             }
 
-            _context.Wineries.Remove( WineryEntity );
+            _context.Wineries.Remove( wineryEntity );
             _context.SaveChanges( );
 
-            return _converter.Convert( WineryEntity );
+            return _converter.Convert( wineryEntity );
         }
 
     }
