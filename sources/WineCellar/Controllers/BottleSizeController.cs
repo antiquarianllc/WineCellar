@@ -36,15 +36,15 @@ namespace WineCellar.Controllers
         public ActionResult<IEnumerable<BottleSize>> GetBottleSizes()
         {
             _logger.LogTrace( "Get all BottleSizes" );
-            List<BottleSize> BottleSizes = new List<BottleSize>( ); ;
-            var BottleSizeEntities = _context.BottleSizes;
+            List<BottleSize> bottleSizes = new List<BottleSize>( ); ;
+            var bottleSizeEntities = _context.BottleSizes;
 
-            foreach (BottleSizeEntity entity in BottleSizeEntities)
+            foreach (BottleSizeEntity entity in bottleSizeEntities)
             {
-                BottleSizes.Add( _converter.Convert( entity ) );
+                bottleSizes.Add( _converter.Convert( entity ) );
             }
 
-            return BottleSizes;
+            return bottleSizes;
         }
 
         // GET:      api/BottleSize/{Id}
@@ -53,16 +53,16 @@ namespace WineCellar.Controllers
         public ActionResult<BottleSize> GetBottleSize( int id )
         {
             _logger.LogTrace( "Get BottleSize with Id " + id );
-            var BottleSizeEntity = _context.BottleSizes.Find( id );
+            var bottleSizeEntity = _context.BottleSizes.Find( id );
 
-            if (BottleSizeEntity == null)
+            if (bottleSizeEntity == null)
             {
                 _logger.LogInformation( "Cannot find BottleSize associated with Id " + id );
                 return NotFound( );
             }
 
             _logger.LogTrace( "Found BottleSize for Id " + id );
-            return _converter.Convert( BottleSizeEntity );
+            return _converter.Convert( bottleSizeEntity );
         }
 
         // POST:    api/commands
@@ -72,16 +72,16 @@ namespace WineCellar.Controllers
             _logger.LogTrace( "Create new BottleSize " + bottleSize.ToString( ) );
 
             // Convert model to entity.
-            var BottleSizeEntity = _converter.Convert( bottleSize );
+            var bottleSizeEntity = _converter.Convert( bottleSize );
 
             // Only allow one instance of each BottleSize.
             var checkBottleSize = from v in _context.BottleSizes
-                                where ( v.BottleSize == BottleSizeEntity.BottleSize )
+                                where ( v.BottleSize == bottleSizeEntity.BottleSize )
                                 select v;
 
             if (checkBottleSize.FirstOrDefault( ) == null)
             {
-                _context.BottleSizes.Add( BottleSizeEntity );
+                _context.BottleSizes.Add( bottleSizeEntity );
 
                 try
                 {
@@ -97,8 +97,7 @@ namespace WineCellar.Controllers
                 return Conflict( );
             }
 
-
-            return CreatedAtAction( "GetBottleSize", BottleSizeEntity.Id );
+            return CreatedAtAction( "GetBottleSize", bottleSizeEntity.Id );
         }
 
         /*
@@ -124,17 +123,17 @@ namespace WineCellar.Controllers
         public ActionResult<BottleSize> DeleteBottleSize( int id )
         {
             _logger.LogTrace( "Delete BottleSize with Id " + id );
-            var BottleSizeEntity = _context.BottleSizes.Find( id );
+            var bottleSizeEntity = _context.BottleSizes.Find( id );
 
-            if (BottleSizeEntity == null)
+            if (bottleSizeEntity == null)
             {
                 return NotFound( );
             }
 
-            _context.BottleSizes.Remove( BottleSizeEntity );
+            _context.BottleSizes.Remove( bottleSizeEntity );
             _context.SaveChanges( );
 
-            return _converter.Convert( BottleSizeEntity );
+            return _converter.Convert( bottleSizeEntity );
         }
 
     }
