@@ -14,6 +14,9 @@ namespace WineCellar.Entities
         public DbSet<VarietalEntity> Varietals { get; set; }
 
         public DbSet<BottleSizeEntity> BottleSizes { get; set; }
+
+        public DbSet<WineryEntity> Wineries { get; set; }
+        
     }
 
 }
