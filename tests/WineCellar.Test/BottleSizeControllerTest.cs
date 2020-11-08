@@ -79,8 +79,7 @@ namespace WineCellar.Tests
                 Volume = "Test 1.2 Volume",
                 Default = true
             };
-
-            _dbContext.Add( BottleSize );
+            _dbContext.BottleSizes.Add( BottleSize );
             _dbContext.SaveChanges( );
 
             // Act
@@ -109,8 +108,8 @@ namespace WineCellar.Tests
                 Default = true
             };
 
-            _dbContext.Add( BottleSize );
-            _dbContext.Add( BottleSize2 );
+            _dbContext.BottleSizes.Add( BottleSize );
+            _dbContext.BottleSizes.Add( BottleSize2 );
             _dbContext.SaveChanges( );
 
             // Act
@@ -181,9 +180,8 @@ namespace WineCellar.Tests
                 BottleSize = "Test 2.3 BottleSize",
                 Volume = "Test 2.3 Volume",
                 Default = false
-        };
-
-            _dbContext.Add( BottleSize );
+            };
+            _dbContext.BottleSizes.Add( BottleSize );
             _dbContext.SaveChanges( );
 
             var cmdId = BottleSize.Id;
@@ -208,8 +206,7 @@ namespace WineCellar.Tests
                 Volume = "Test 2.4 Volume",
                 Default = false
             };
-
-            _dbContext.Add( BottleSize );
+            _dbContext.BottleSizes.Add( BottleSize );
             _dbContext.SaveChanges( );
 
             var cmdId = BottleSize.Id;
