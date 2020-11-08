@@ -63,7 +63,7 @@ namespace WineCellar.Tests
             // Act
             var results = _controller.GetWinery( );
 
-            //Assert
+            // Assert
             Assert.Empty( results.Value );
         }
 
@@ -86,7 +86,7 @@ namespace WineCellar.Tests
             // Act
             var results = _controller.GetWinery( );
 
-            //Assert
+            // Assert
             Assert.Single( results.Value );
         }
 
@@ -117,9 +117,8 @@ namespace WineCellar.Tests
             // Act
             var results = _controller.GetWinery( );
 
-            //Assert
+            // Assert
             Assert.Equal( 2, results.Value.Count( ) );
-
         }
 
         // Test 1.4 : Request count of N objects when N exists in database
@@ -132,9 +131,8 @@ namespace WineCellar.Tests
             // Act
             var results = _controller.GetWinery( );
 
-            //Assert
+            // Assert
             Assert.IsType<ActionResult<IEnumerable<Winery>>>( results );
-
         }
 
         // ACTION 2 Tests : GET     /api/Winery/{id}
@@ -150,9 +148,8 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.GetWinery( 0 );
 
-            //Assert
+            // Assert
             Assert.Null( result.Value );
-
         }
 
         // Test 2.2 : Request object by ID when none exist - Return 404 Not Found Return Code
@@ -166,9 +163,8 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.GetWinery( 0 );
 
-            //Assert
+            // Assert
             Assert.IsType<NotFoundResult>( result.Result );
-
         }
 
         // Test 2.3 : Request object by valid ID - Check Correct Return Type
@@ -192,9 +188,8 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.GetWinery( wineryEntityId );
 
-            //Assert
+            // Assert
             Assert.IsType<ActionResult<Winery>>( result );
-
         }
 
         // Test 2.4 : Request object by valid ID - Check correct item returned
@@ -218,9 +213,8 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.GetWinery( cmdId );
 
-            //Assert
+            // Assert
             Assert.Equal( cmdId, result.Value.Id );
-
         }
 
 
@@ -245,9 +239,8 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.PostWinery( winery );
 
-            //Assert
+            // Assert
             Assert.Equal( oldCount + 1, _dbContext.Wineries.Count( ) );
-
         }
 
         // Test 3.2 : Create new Winery database item - Return item of proper type.
@@ -267,9 +260,8 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.PostWinery( winery );
 
-            //Assert
+            // Assert
             Assert.IsType<CreatedAtActionResult>( result.Result );
-
         }
 
         // Test 3.3 : Create duplicate Winery record in Databse - Returns 409 Conflict code
@@ -294,9 +286,8 @@ namespace WineCellar.Tests
                 result = _controller.PostWinery( winery );
             }
 
-            //Assert
+            // Assert
             Assert.IsType<ConflictResult>( result.Result );
-
         }
 
 
@@ -304,7 +295,7 @@ namespace WineCellar.Tests
 
         // Test 4.1 : Request attribute in valid object be updated - Return attribute updated
         [Fact]
-        public void PutWinery_AttributeUpdated_WhenUsingValidItem()
+        public void PutWinery_AttributesUpdated_WhenUsingValidWineryId()
         {
 
             // Arrange
@@ -321,23 +312,26 @@ namespace WineCellar.Tests
 
             var winery = new Winery
             {
-                Name = "Test 4.1 Winery",
-                WebSite = "Test 4.1 Web Site",
+                Name = "Test 4.1 Winery UPDATED",
+                WebSite = "Test 4.1 Web Site UPDATED",
                 EMail = "Test 4.1 EMail UPDATED",
-                Phone = "Test 4.1 Phone"
+                Phone = "Test 4.1 Phone UPDATED"
             };
 
             // Act
             _controller.PutWinery( wineryEntityId, winery );
             var result = _dbContext.Wineries.Find( wineryEntityId );
 
-            //Assert
+            // Assert
+            Assert.Equal( winery.Name, result.Name );
+            Assert.Equal( winery.WebSite, result.WebSite );
             Assert.Equal( winery.EMail, result.EMail );
+            Assert.Equal( winery.Phone, result.Phone );
         }
 
         // Test 4.2 : Request attribute in valid object be updated - Return 204 return code
         [Fact]
-        public void PutWinery_AttributeUpdate_WhenUsingValidItem()
+        public void PutWinery_ReturnsItemOfCorrectType_WhenUsingValidWineryId()
         {
 
             // Arrange
@@ -363,13 +357,13 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.PutWinery( wineryEntityId, winery );
 
-            //Assert
+            // Assert
             Assert.IsType<NoContentResult>( result );
         }
 
         // Test 4.3 : Request attribute in invalid object be updated - Return 400 return code
         [Fact]
-        public void PutWinery_AttributeUpdate_WhenUsingInvalidItem()
+        public void PutWinery_Returns404NotFound_WhenUsingInvalidIWineryId()
         {
 
             // Arrange
@@ -396,13 +390,13 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.PutWinery( wineryId, winery );
 
-            //Assert
-            Assert.IsType<BadRequestResult>( result );
+            // Assert
+            Assert.IsType<NotFoundResult>( result );
         }
 
         // Test 4.4 : Request attribute in invalid object be updated - Return original object unchanged
         [Fact]
-        public void PutWinery_AttributeUnchanged_WhenUsingInvalidItem()
+        public void PutWinery_AttributesUnchanged_WhenUsingInvalidWineryId()
         {
 
             // Arrange
@@ -428,7 +422,7 @@ namespace WineCellar.Tests
             _controller.PutWinery( wineryEntity.Id + 1, winery );
             var result = _dbContext.Wineries.Find( wineryEntity.Id );
 
-            //Assert
+            // Assert
             Assert.Equal( wineryEntity.Name, result.Name );
         }
 
@@ -457,7 +451,7 @@ namespace WineCellar.Tests
             // Act
             _controller.DeleteWinery( wineryId );
 
-            //Assert
+            // Assert
             Assert.Equal( objCount - 1, _dbContext.Wineries.Count( ) );
         }
 
@@ -482,7 +476,7 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.DeleteWinery( wineryId );
 
-            //Assert
+            // Assert
             Assert.Null( result.Result );
         }
 
@@ -496,9 +490,8 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.DeleteWinery( -1 );
 
-            //Assert
+            // Assert
             Assert.IsType<NotFoundResult>( result.Result );
-
         }
 
         // Test 5.4 : Request invalid object Id be deleted - Object count unchanged
@@ -523,9 +516,8 @@ namespace WineCellar.Tests
             // Act
             var result = _controller.DeleteWinery( wineryId + 1 );
 
-            //Assert
+            // Assert
             Assert.Equal( objCount, _dbContext.Wineries.Count( ) );
-
         }
 
     }

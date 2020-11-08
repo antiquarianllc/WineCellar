@@ -111,7 +111,7 @@ namespace WineCellar.Controllers
             // Can only update an existing winery.
             if (wineryEntity == null)
             {
-                return BadRequest( );
+                return NotFound( );
             }
 
             // Convert parameter model to entity.
