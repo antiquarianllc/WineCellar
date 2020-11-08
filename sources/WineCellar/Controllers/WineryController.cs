@@ -33,18 +33,18 @@ namespace WineCellar.Controllers
 
         // GET:  api/Winery
         [HttpGet]
-        public ActionResult<IEnumerable<Winery>> GetWinerys()
+        public ActionResult<IEnumerable<Winery>> GetWinery()
         {
-            _logger.LogTrace( "Get all Winerys" );
-            List<Winery> Winerys = new List<Winery>( ); ;
+            _logger.LogTrace( "Get all Wineries" );
+            List<Winery> wineries = new List<Winery>( ); ;
             var wineEntities = _context.Wineries;
 
             foreach (WineryEntity entity in wineEntities)
             {
-                Winerys.Add( _converter.Convert( entity ) );
+                wineries.Add( _converter.Convert( entity ) );
             }
 
-            return Winerys;
+            return wineries;
         }
 
         // GET:      api/Winery/{Id}
@@ -111,7 +111,7 @@ namespace WineCellar.Controllers
             // Can only update an existing winery.
             if (wineryEntity == null)
             {
-                return NotFound( );
+                return BadRequest( );
             }
 
             // Convert parameter model to entity.

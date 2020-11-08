@@ -78,7 +78,7 @@ namespace WineCellar.Tests
                 Varietal = "Test 1.2 Varietal"
             };
 
-            _dbContext.Add( varietal );
+            _dbContext.Varietals.Add( varietal );
             _dbContext.SaveChanges( );
 
             // Act
@@ -104,8 +104,8 @@ namespace WineCellar.Tests
                 Varietal = "Test 1.3 White Varietal" 
             };
 
-            _dbContext.Add( varietal );
-            _dbContext.Add( varietal2 );
+            _dbContext.Varietals.Add( varietal );
+            _dbContext.Varietals.Add( varietal2 );
             _dbContext.SaveChanges( );
 
             // Act
@@ -176,7 +176,7 @@ namespace WineCellar.Tests
                 Varietal = "Test 2.3 Varietal"
             };
 
-            _dbContext.Add( varietal );
+            _dbContext.Varietals.Add( varietal );
             _dbContext.SaveChanges( );
 
             var cmdId = varietal.Id;
@@ -200,7 +200,7 @@ namespace WineCellar.Tests
                 Varietal = "Test 2.4 Varietal"
             };
 
-            _dbContext.Add( varietal );
+            _dbContext.Varietals.Add( varietal );
             _dbContext.SaveChanges( );
 
             var cmdId = varietal.Id;
