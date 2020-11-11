@@ -1,4 +1,7 @@
+using System;
+//--using System.Data.Entity;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace WineCellar.Entities
 {
@@ -16,7 +19,9 @@ namespace WineCellar.Entities
         public DbSet<BottleSizeEntity> BottleSizes { get; set; }
 
         public DbSet<WineryEntity> Wineries { get; set; }
-        
+
+        public DbSet<WineEntity> Wines { get; set; }
+
     }
 
 }

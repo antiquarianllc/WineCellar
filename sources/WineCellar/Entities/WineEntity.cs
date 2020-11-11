@@ -8,13 +8,18 @@ namespace WineCellar.Entities
         public string Name { get; set; }
         public string Vintage { get; set; }
         public string WhenPurchased { get; set; }
-        public string BottlesPurchased { get; set; }
-        public string BottlesDrank { get; set; }
+        public int BottlesPurchased { get; set; }
+        public int BottlesDrank { get; set; }
 
         // Foreign Keys
-        public int BottleSizeId { get; set; }
-        public int VarietalId { get;set; }
-        public int WineryId { get; set; }
-   }
+        public int BottleSizeEntityId { get; set; }
+        public int VarietalEntityId { get; set; }
+        public int WineryEntityId { get; set; }
+
+        // Navigation Properties
+        public virtual BottleSizeEntity BottleSize { get; set; }
+        public virtual VarietalEntity Varietal { get; set; }
+        public virtual WineryEntity Winery { get; set; }
+    }
 
 }
