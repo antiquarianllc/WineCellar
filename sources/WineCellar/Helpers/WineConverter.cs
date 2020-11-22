@@ -25,7 +25,7 @@ namespace WineCellar.Helpers
             destination.Vintage = source.Vintage;
             destination.WhenPurchased = source.WhenPurchased;
             destination.BottlesPurchased = source.BottlesPurchased;
-            destination.BottlesDrank = source.BottlesPurchased;
+            destination.BottlesDrank = source.BottlesDrank;
 
             destination.BottleSizeEntityId = source.BottleSizeId;
             destination.VarietalEntityId = source.VarietalId;
