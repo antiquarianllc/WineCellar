@@ -8,8 +8,8 @@ namespace WineCellar.Models
         public string Name { get; set; }
         public string Vintage { get; set; }
         public string WhenPurchased { get; set; }
-        public int BottlesPurchased { get; set; }
-        public int BottlesDrank { get; set; }
+        public int BottlesPurchased { get; set; } = 1;
+        public int BottlesDrank { get; set; } = 0;
 
         // Foreign Keys
         public int BottleSizeId { get; set; }
