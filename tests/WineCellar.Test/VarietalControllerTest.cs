@@ -27,7 +27,7 @@ namespace WineCellar.Tests
 
             // Create inMemory database for testing.
             _optionsBuilder = new DbContextOptionsBuilder<WineCellarDBContext>( );
-            _optionsBuilder.UseInMemoryDatabase( "UnitTestInMemDB" );
+            _optionsBuilder.UseInMemoryDatabase( "VarietalUnitTestInMemDB" );
             _dbContext = new WineCellarDBContext( _optionsBuilder.Options );
 
             // Create commands controller for testing.   
