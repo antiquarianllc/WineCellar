@@ -580,6 +580,86 @@ namespace WineCellar.Tests
             Assert.Equal( wineEntity.Name, result.Name );
         }
 
+        // Test 4.5 : Request linked data updated in base object be updated - Return attribute updated
+        [Fact]
+        public void PutWine_LinkedInfoUpdated_WhenUsingValidWineId()
+        {
+
+            // Arrange
+            // Set up associated object - Varietal.
+            var varietalEntity = new VarietalEntity
+            {
+                Varietal = "Test 4.5 Varietal"
+            };
+            var varietalEntity2 = new VarietalEntity
+            {
+                Varietal = "Test 4.5 Varietal2"
+            };
+            _dbContext.Varietals.Add( varietalEntity );
+            _dbContext.Varietals.Add( varietalEntity2 );
+
+            // Set up associated object - BottleSize.
+            var bottleSizeEntity = new BottleSizeEntity
+            {
+                // Just use default values.
+            };
+            var bottleSizeEntity2 = new BottleSizeEntity
+            {
+                BottleSize = "375"         
+            };
+            _dbContext.BottleSizes.Add( bottleSizeEntity );
+            _dbContext.BottleSizes.Add( bottleSizeEntity2 );
+
+            // Set up associated object - Winery.
+            var wineryEntity = new WineryEntity
+            {
+                Name = "Test 4.1 Winery"
+            };
+            var wineryEntity2 = new WineryEntity
+            {
+                Name = "Test 4.5 Winery2"
+            };
+            _dbContext.Wineries.Add( wineryEntity );
+            _dbContext.Wineries.Add( wineryEntity2 );
+
+            _dbContext.SaveChanges( );
+
+            var wineEntity = new WineEntity
+            {
+                Name = "Test 4.5 Wine",
+                WhenPurchased = "Test 4.5 WhenPurchased",
+                //--BottlesDrank = 4,
+                BottlesPurchased = 8,
+                VarietalEntityId = varietalEntity.Id,
+                BottleSizeEntityId = bottleSizeEntity.Id,
+                WineryEntityId = wineryEntity.Id,
+                Vintage = "Test 4.5 Vintage"
+            };
+            _dbContext.Wines.Add( wineEntity );
+            _dbContext.SaveChanges( );
+            var wineEntityId = wineEntity.Id;
+
+            var wine = new Wine
+            {
+                // Update Ids of linked records.
+                BottleSizeId = bottleSizeEntity2.Id,
+                VarietalId = varietalEntity2.Id,
+                WineryId = wineryEntity2.Id
+            };
+
+            // Act
+            _controller.PutWine( wineEntityId, wine );
+            var result = _dbContext.Wines.Find( wineEntityId );
+
+            // Assert
+            Assert.Equal( wine.VarietalId, result.VarietalEntityId );
+            Assert.Equal( wine.BottleSizeId, result.BottleSizeEntityId );
+            Assert.Equal( wine.WineryId, result.WineryEntityId );
+            Assert.Equal( bottleSizeEntity2.BottleSize, result.BottleSize.BottleSize );
+            Assert.Equal( varietalEntity2.Varietal, result.Varietal.Varietal );
+            Assert.Equal( wineryEntity2.Name, result.Winery.Name );
+        }
+
 
         // ACTION 5 Tests : DELETE          /api/Wine/{id}
 
